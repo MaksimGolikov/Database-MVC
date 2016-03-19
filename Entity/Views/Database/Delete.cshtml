@@ -1,0 +1,15 @@
+﻿@using Entity.Models
+@using Entity.Models.Devices
+@model  IDictionary<int,string>
+
+@{
+    Layout = "/Views/Main.cshtml";
+}
+
+<p> Do you realy wont to delete it?</p>
+
+@foreach(var item in Model)
+{ 
+<a href="/Database/Del/@item.Key/@item.Value">
+    <img src="~/Content/Images/devicePanel/del.jpg"></a>
+}

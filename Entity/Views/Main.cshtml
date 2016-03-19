@@ -1,0 +1,39 @@
+﻿
+<!Doctype html>
+<html>
+<head>
+    <title>MVC Smatr House</title>
+    <link href="/Content/DeviсePanel.css" rel="stylesheet"/>
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+    @*@Scripts.Render("~/Content/JS.js")*@
+    </head>
+<body>
+    <div id="main">
+      <div id="picture">
+       <img src="/Content/Images/MasterPage/top.JPG" >
+
+          <a href="~/SmartHouse/JS"> on webapi</a>
+       </div>
+       <div id="button">
+           <a href="~/Database/ChouseDevice/tv">
+               <img src="/Content/Images/MasterPage/tv.png" id="image"></a>
+           <a href="~/Database/ChouseDevice/fridge">
+               <img src="/Content/Images/MasterPage/fridge.png" id="image"> </a>
+           <a href="~/Database/ChouseDevice/cond">
+               <img src="/Content/Images/MasterPage/cond.png" id="image">  </a>
+           <a href="~/Database/ChouseDevice/tr">
+               <img src="/Content/Images/MasterPage/Tr.png" id="image">  </a>
+           <a href="~/Database/ChouseDevice/lamp">
+               <img src="/Content/Images/MasterPage/lamp.png" id="image">  </a>
+           <a href="~/Database/ChouseDevice/kettle">
+               <img src="/Content/Images/MasterPage/kettl.png" id="image">   </a>
+           <a href="~/Database/Add">
+               <img src="~/Content/Images/MasterPage/add.jpg" id="image" class="dopleft"> </a>
+
+</div>
+       <div id="workarea">
+           @RenderBody();
+       </div>
+  </div>
+</body>
+</html>

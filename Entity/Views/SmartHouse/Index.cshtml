@@ -1,0 +1,223 @@
+﻿@using Entity.Models
+@using Entity.Models.Devices
+@using System.Drawing;
+@model IDictionary<int, Device>
+
+@{
+    Layout = "/Views/Main.cshtml";
+}
+
+<body>
+
+    @if (Model.Count != 0)
+    {
+        foreach (var item in Model)
+        {
+            <div class="figure-div">
+
+                <div class="img">
+                    @switch (item.Value.Id)
+                    {
+                        case "lamp":
+                            <img src="~/Content/Images/MainScreen/lamp.jpg">
+                            <span>     </span>
+                            break;
+
+                        case "tr":
+                        <img src="~/Content/Images/MainScreen/TR.jpg">
+                        <span>     </span>
+                            break;
+
+                        case "tv":
+                        <img src="~/Content/Images/MainScreen/tv.jpg">
+                        <span>     </span>
+                            break;
+
+                        case "kettle":
+                        <img src="~/Content/Images/MainScreen/kettle.jpg">
+                        <span>     </span>
+                            break;
+
+                        case "fridge":
+                        <img src="~/Content/Images/MainScreen/fridge.jpg">
+                        <span>     </span>
+                            break;
+
+                        case "cond":
+                        <img src="~/Content/Images/MainScreen/cond.jpg">
+                        <span>     </span>
+                            break;
+                    }
+                </div>
+
+                <div class="button">
+                    <h3>@item.Value.Name</h3><br />
+
+
+
+                    @if (item.Value is IState)
+                    {
+                        <h3>vkl/vikl: </h3>
+                        if (((IState)item.Value).State)
+                        {
+                            <a href="/States/Switch/@item.Key">
+                                <img src="~/Content/Images/devicePanel/on.png">
+                            </a><br />
+                        }
+                        else
+                        {
+                            <a href="/States/Switch/@item.Key">
+                                <img src="~/Content/Images/devicePanel/off.png">
+                            </a><br />
+                        }
+
+                    }
+
+                    @if (item.Value is IFrize)
+                    {
+
+                        <h3>Frize: </h3>
+                        if (((IFrize)item.Value).StateFrize)
+                        {
+                            <a href="/States/SwitchFrize/@item.Key">
+                                <img src="~/Content/Images/devicePanel/on.png">
+                            </a><br />
+                        }
+                        else
+                        {
+                            <a href="/States/SwitchFrize/@item.Key">
+                                <img src="~/Content/Images/devicePanel/off.png">
+                            </a><br />
+                        }
+
+                    }
+
+                    @if (item.Value is IMode)
+                    {
+
+                        <h3>Mode: @(((IMode)item.Value).StateMode())</h3>
+                        <span>  </span>
+                        if (((IMode)item.Value).Mode)
+                        {
+                            <a href="/States/SwitchMode/@item.Key">
+                                <img src="~/Content/Images/devicePanel/on.png">
+                            </a><br />
+                        }
+                        else
+                        {
+                            <a href="/States/SwitchMode/@item.Key">
+                                <img src="~/Content/Images/devicePanel/off.png">
+                            </a><br />
+                        }
+
+                    }
+                </div>
+
+                <div class="state">
+
+                    @if (item.Value is IChanel)
+                    {
+                        if (((IState)item.Value).State)
+                        {
+
+                            <h3>@(((IChanel)item.Value).Chanel)   </h3>
+                            <a href="/Chanel/Beakchanel/@item.Key">
+                                <img src="~/Content/Images/devicePanel/beak.png">
+                            </a><span>   </span>
+
+                            <a href="/Chanel/Nextchanel/@item.Key">
+                                <img src="~/Content/Images/devicePanel/next.png">
+                            </a><span>   </span>
+                        }
+                    }
+
+                    @if (item.Value is IProgramm)
+                    {
+                        <h3>Programm: @(((IProgramm)item.Value).ProgrammState())</h3>
+                        <span>  </span>
+                        <a href="/Parametrs/ProgramBack/@item.Key">
+                            <img src="~/Content/Images/devicePanel/beak.png">
+                        </a><span>  </span>
+
+                        <a href="/Parametrs/ProgramNext/@item.Key">
+                            <img src="~/Content/Images/devicePanel/next.png">
+                        </a><span>  </span>
+                    }
+
+                    @if (item.Value is IVolume)
+                    {
+
+
+                        <h3>Volume: @(((IVolume)item.Value).Volume)</h3>
+                        <span>  </span>
+
+                        <a href="/Parametrs/VolumeDown/@item.Key">
+                            <img src="~/Content/Images/devicePanel/down.png">
+                        </a><span>  </span>
+
+                        <a href="/Parametrs/VolumeUp/@item.Key">
+                            <img src="~/Content/Images/devicePanel/up.png">
+                        </a><span>  </span>
+
+                        <img src="~/Content/Images/devicePanel/level.png">
+                    }
+
+                    @if (item.Value is IBrightness)
+                    {
+
+                        <h3>Brightness: @(((IBrightness)item.Value).Brightness)</h3>
+                        <span>  </span>
+                        <a href="/Parametrs/BrightnessDown/@item.Key">
+                            <img src="~/Content/Images/devicePanel/down.png">
+                        </a><span>  </span>
+
+                        <a href="/Parametrs/BrightnessUp/@item.Key">
+                            <img src="~/Content/Images/devicePanel/up.png">
+                        </a><span>  </span>
+
+                        <img src="~/Content/Images/devicePanel/level.png">
+
+                    }
+
+                    @if (item.Value is IColor)
+                    {
+
+                        <h3>Color: <font color="@(((IColor)item.Value).ReturnColor())"> COLOR </font> </h3>
+
+
+                        <a href="/Parametrs/ColorSellect/@item.Key/down">
+                            <img src="~/Content/Images/devicePanel/beak.png">
+                        </a><span>  </span>
+
+                        <a href="/Parametrs/ColorSellect/@item.Key/up">
+                            <img src="~/Content/Images/devicePanel/next.png">
+                        </a><span>  </span>
+
+                    }
+
+                    @if (item.Value.Id == "tv" && !((IMode)item.Value).Mode)
+                    {
+
+                        <h3> diskbox:</h3>
+                        <a href="/Parametrs/DVDstate/@item.Key/diskbox">
+                            <img src="~/Content/Images/devicePanel/down.png">
+                        </a>
+
+                        <h3>mode state: play</h3>
+                        <a href="/Parametrs/DVDstate/@item.Key/state">
+                            <img src="~/Content/Images/devicePanel/down.png">
+                        </a>
+
+                    }
+
+                    <br />
+                    <a href="/SmartHouse/Delete/@item.Key"><img src="~/Content/Images/devicePanel/del.jpg"></a>
+                </div>
+            </div>
+        }
+    }
+
+
+
+</body>
+

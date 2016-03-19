@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "/Views/Main.cshtml";
+}
+
+<div class="add">
+ <form method="post" action="/Database/Add">
+    <table align="center"  cellpadding="4">
+        <tr>
+            <td colspan="6" align="center">
+                <h3>Enter name and chouse device</h3>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"> Name of device</td>&nbsp;&nbsp;
+            <td> <input type="text" name="Namedevice" value=""></td>
+        </tr>
+        <tr>
+            <td colspan="6" align="center">Type of device</td>            
+        </tr>
+        <tr >
+            <td align="center">
+                <input type="image" name="type" value="tv" src="/Content/Images/MasterPage/tv.png">
+            </td>
+            <td align="center">
+                <input type="image" name="type" value="fridge" src="/Content/Images/MasterPage/fridge.png" id="imageadd">
+            </td>
+            <td align="center">
+                <input type="image" name="type" value="cond" src="/Content/Images/MasterPage/cond.png" id="imageadd">
+            </td>
+            <td align="center">
+                <<input type="image" name="type" value="tr" src="/Content/Images/MasterPage/Tr.png" id="imageadd">
+            </td>
+            <td align="center">
+                <input type="image" name="type" value="lamp" src="/Content/Images/MasterPage/lamp.png" id="imageadd">
+            </td>
+            <td align="center">
+                <input type="image" name="type" value="kettle" src="/Content/Images/MasterPage/kettl.png" id="imageadd">
+            </td>
+        </tr>
+        
+    </table>
+</form>
+</div>
