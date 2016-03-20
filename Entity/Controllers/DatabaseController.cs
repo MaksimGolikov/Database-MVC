@@ -26,9 +26,7 @@ namespace Entity.Controllers
         public ActionResult ChouseDevice(string id)
         {           
             IDictionary<int, Models.Devices.Device> filtrDevice = new SortedDictionary<int, Models.Devices.Device>();
-            
-            Session["Filtr"] = id;
-            int ID = 0;
+                           
             switch(id)
             {
                 case"lamp":
@@ -45,8 +43,7 @@ namespace Entity.Controllers
                           lamp.State = l.State;
                           lamp.currentcolor = l.CurrentColor;
 
-                          filtrDevice.Add(l.Id,lamp);
-                          //ID++;
+                          filtrDevice.Add(l.Id,lamp);                         
                       }
 
 
@@ -95,9 +92,7 @@ namespace Entity.Controllers
                                     break;
                             }
 
-
-                          filtrDevice.Add(l.Id,tV);
-                          //ID++;
+                          filtrDevice.Add(l.Id,tV);                          
                       }
 
                     break;
@@ -115,9 +110,7 @@ namespace Entity.Controllers
                           TRec.Mode = l.Mode;
                           TRec.Volume = l.Volume;
 
-
-                          filtrDevice.Add(l.Id,TRec);
-                          //ID++;
+                          filtrDevice.Add(l.Id,TRec);                          
                       }
 
                     break;
@@ -133,8 +126,7 @@ namespace Entity.Controllers
                           ket.Name = l.Name;
                           ket.State = l.State;
 
-                          filtrDevice.Add(l.Id, ket);
-                          //ID++;
+                          filtrDevice.Add(l.Id, ket);                         
                       }
 
                     break;
@@ -151,10 +143,9 @@ namespace Entity.Controllers
                           fridge.State = l.State;
                           fridge.StateFrize = l.StateFrize;
                           fridge.Programm = l.Programm;
-
-
+                          
                           filtrDevice.Add(l.Id, fridge);
-                         // ID++;
+                         
                       }
 
                     break;
@@ -171,13 +162,11 @@ namespace Entity.Controllers
                           conde.State = l.State;
                           conde.Programm = l.Programm;
 
-                          filtrDevice.Add(l.Id, conde);
-                          //ID++;
+                          filtrDevice.Add(l.Id, conde);                         
                       }
 
                     break;
             }
-
            
             return View("Index",filtrDevice);
         }
@@ -277,8 +266,7 @@ namespace Entity.Controllers
             IDictionary<int, string> del=new SortedDictionary<int, string>();
             del.Add(id,chanel);
             return View(del);
-        }
-        
+        }        
         public ActionResult Del(int id, string chanel)
         {
             try
@@ -338,6 +326,59 @@ namespace Entity.Controllers
                 IDictionary<int, Models.Devices.Device> filtrDevice = new SortedDictionary<int, Models.Devices.Device>();
                 return View("Index", filtrDevice);
             }
+        }
+
+        public ActionResult ToWebApi()
+        {
+            IDictionary<int, Models.Devices.Device> filtrDevice = new SortedDictionary<int, Models.Devices.Device>();
+             
+                     Models.Devices.TeleVision tV;
+                     Models.Devices.DVD dvd = new Models.Devices.DVD("0");
+
+                      var dev = dbconnect.DVD;
+                      var dev2 = dbconnect.TeleVision.Include(p=>p.Device).ToList();    
+                            
+                      foreach(var l in dev2)
+                      {
+                          foreach(var d in dev)
+                          {                             
+                              dvd.IsDiskboxOpen = d.IsDiskboxOpen;
+                              dvd.IsPlay = d.IsPlay;
+                              dvd.Name = d.Name;
+                          }
+
+                          tV = new Models.Devices.TeleVision("0",dvd,Models.Addition.Chanel.ICTV);
+
+                          tV.Name = l.Name;
+                          tV.State = l.State;
+                          tV.Brightness = l.Brightness;
+                          tV.Mode = l.Mode;
+                          tV.Volume = l.Volume;
+
+                            switch(l.CurrentChanel)
+                            {
+                                case "ICTV":
+                                    tV.Chanel = Models.Addition.Chanel.ICTV;
+                                    break;
+                                case "NationalGeographics":
+                                    tV.Chanel = Models.Addition.Chanel.NationalGeographics;
+                                    break;
+                                case "M1":
+                                    tV.Chanel = Models.Addition.Chanel.M1;
+                                    break;
+                                case "Інтер":
+                                    tV.Chanel = Models.Addition.Chanel.Інтер;
+                                    break;
+                                case "Україна":
+                                    tV.Chanel = Models.Addition.Chanel.Україна;
+                                    break;
+                            }
+
+
+                          filtrDevice.Add(l.Id,tV);                          
+                      }
+                      return View("~/Views/JS/JS.cshtml", filtrDevice);
+
         }
     }
 }

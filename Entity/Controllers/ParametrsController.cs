@@ -17,7 +17,6 @@ namespace Entity.Controllers
         {
             
             IDictionary<int, Models.Devices.Device> filtrDevice = new SortedDictionary<int, Models.Devices.Device>();
-
             filtrDevice = CreateObject(id,chanel);           
 
             ((Models.IVolume)filtrDevice[0]).VolumeDown();

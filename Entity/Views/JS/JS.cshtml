@@ -1,0 +1,234 @@
+﻿@using Entity.Models
+@using Entity.Models.Devices
+@using System.Drawing;
+@model IDictionary<int, Device>
+
+@{
+    Layout = "/Views/Main.cshtml";
+}
+
+
+
+<body>
+
+
+
+    @if (Model.Count != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="figure-div" id="@item.Key-dev">
+            <div class="img">
+                <img src="~/Content/Images/MainScreen/tv.jpg"><br />
+                <span>     </span>
+            </div>
+            <div class="button">
+                <h3>@item.Value.Name</h3><br />
+
+                              
+                     
+                @if (item.Value is IState)
+                    {
+                            <h3>vkl/vikl: </h3>
+
+                        if (((IState)item.Value).State)
+                            {
+                                <input type="image" src="~/Content/Images/devicePanel/on.png" id="@item.Key-switch">
+                            }
+                            else
+                            {
+                                <input type="image" src="~/Content/Images/devicePanel/off.png" id="@item.Key-switch">
+                            }
+                    }
+                   
+                @if (item.Value is IMode)
+                    {
+                    <h3>Mode: </h3><h3 id="@item.Key-mod">@(((IMode)item.Value).StateMode())</h3>
+                    <span>  </span>
+                        if (((IState)item.Value).State)
+                        {
+                    <input type="image" src="~/Content/Images/devicePanel/on.png" id="@item.Key-mode">
+                        }
+                        else
+                        {
+                    <input type="image" src="~/Content/Images/devicePanel/off.png" id="@item.Key-mode">
+                        }
+                    }
+            </div>
+            <div class="state">
+                @if (item.Value is IChanel)
+{
+                    if (((IState)item.Value).State)
+                    {
+                    <h3 id="@item.Key-blok">@(((IChanel)item.Value).Chanel)</h3>
+                    <input type="image" src="~/Content/Images/devicePanel/beak.png" id="@item.Key-chanelD">
+                    <input type="image" src="~/Content/Images/devicePanel/next.png" id="@item.Key-chanelU">
+                    <span>   </span>
+                        }
+                    }
+                @if (item.Value is IVolume)
+{
+                    <h3>Volume: </h3><h3 id="@item.Key-v"> @(((IVolume)item.Value).Volume)</h3>
+                   
+                    <input type="image" src="~/Content/Images/devicePanel/down.png" id="@item.Key-volumD"><span>  </span>
+                    <input type="image" src="~/Content/Images/devicePanel/up.png" id="@item.Key-volumU"><span>  </span>
+                    <img src="~/Content/Images/devicePanel/level.png">
+                    }
+                @if (item.Value is IBrightness)
+{
+                    <h3 >Brightness:</h3><h3 id="@item.Key-b"> @(((IBrightness)item.Value).Brightness)</h3>
+                    <span>  </span>
+                    <input type="image" src="~/Content/Images/devicePanel/down.png" id="@item.Key-brigD"><span>  </span>
+                    <input type="image" src="~/Content/Images/devicePanel/up.png" id="@item.Key-brigU"><span>  </span>
+                    <img src="~/Content/Images/devicePanel/level.png">
+
+                    }
+                   @if (((IMode)item.Value).Mode)
+                    {
+                    <h3> diskbox:</h3>
+                    <input type="image" src="~/Content/Images/devicePanel/down.png" id="@item.Key-diskbox" >
+                    <h3>mode state: play</h3>
+                    <input type="image" src="~/Content/Images/devicePanel/down.png" id="@item.Key-play">
+                    }
+                <br />
+                <input type="image" src="~/Content/Images/devicePanel/del.jpg" id="@item.Key-del">
+            </div>
+        </div>
+
+
+        <script>
+
+
+    $("#@item.Key-switch").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/switch",
+            type: "PUT",
+            success: function (data) {
+
+                if (data == "True") {
+                    $('input#@item.Key-switch').attr('src', "/Content/Images/devicePanel/on.png");
+                }
+                else {
+                    $('input#@item.Key-switch').attr('src', "/Content/Images/devicePanel/off.png");
+                }
+            }
+        });
+    });
+
+    $("#@item.Key-mode").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/mode",
+            type: "PUT",
+            success: function (data) {
+
+                if (data == "True") {
+                    $('input#@item.Key-mode').attr('src', "/Content/Images/devicePanel/on.png");
+                    var text = "TV";
+                    $("#@item.Key-mod").html(text);
+                }
+                else {
+                    $('input#@item.Key-mode').attr('src', "/Content/Images/devicePanel/off.png");
+                    var text = "DVD";
+                    $("#@item.Key-mod").html(text);
+                }
+            }
+        });
+    });
+
+    $("#@item.Key-chanelD").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/chanelD",
+            type: "PUT",
+            success: function (data) {
+
+                $("#@item.Key-blok").html(data);
+            }
+        });
+    });
+
+    $("#@item.Key-chanelU").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/chanelU",
+            type: "PUT",
+            success: function (data) {
+                $("#@item.Key-blok").html(data);
+            }
+        });
+    });
+
+    $("#@item.Key-volumD").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/volumD",
+            type: "PUT",
+            success: function (data) {
+                $("#@item.Key-v").html(data);
+            }
+        });
+    });
+
+    $("#@item.Key-volumU").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/volumU",
+            type: "PUT",
+            success: function (data) {
+                $("#@item.Key-v").html(data);
+            }
+        });
+    });
+
+    $("#@item.Key-brigD").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/brigD",
+            type: "PUT",
+            success: function (data) {
+                $("#@item.Key-b").html(data);
+            }
+        });
+    });
+
+    $("#@item.Key-brigU").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/brigU",
+            type: "PUT",
+            success: function (data) {
+                $("#@item.Key-b").html(data);
+            }
+        });
+    });
+
+    $("#@item.Key-diskbox").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/diskbox",
+            type: "PUT",
+            success: function (data) {
+                $("#@item.Key-db").html(data);
+            }
+        });
+    });
+
+    $("#@item.Key-play").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key' + "/play",
+            type: "PUT",
+            success: function (data) {
+                $("#@item.Key-pl").html(data);
+            }
+        });
+    });
+
+    $("#@item.Key-del").click(function () {
+        $.ajax({
+            url: "/api/JS/" + '@item.Key',
+            type: "DELETE",
+            success: function (data) {
+                $("#@item.Key-dev").remove();
+            }
+        });
+    });
+</script>
+        }
+    }
+    
+</body>
+
+
